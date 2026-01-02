@@ -24,7 +24,6 @@ const contactSchema = new mongoose.Schema(
       trim: true,
       match: [/^[6-9]\d{9}$/, "Please enter a valid Indian phone number"],
     },
-
     message: {
       type: String,
       trim: true,
