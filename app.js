@@ -30,15 +30,17 @@ app.use(
 );
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/contacts_db', )
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/contactsdb' )
 .then(() => console.log('MongoDB Connected'))
 .catch(err => console.error('MongoDB Error:', err));
 
 // GET all contacts
 app.get('/api/contacts', async (req, res) => {
   try {
+    console.log('GET CONTACTS REQUEST RECEIVED');
     const contacts = await Contact.find().sort({ createdAt: -1 });
     res.status(200).json({ data: contacts });
   } catch (error) {
@@ -51,9 +53,13 @@ app.get('/api/contacts', async (req, res) => {
 // CREATE contact
 app.post('/api/contacts', async (req, res) => {
   try {
+    console.log('POST CONTACT REQUEST RECEIVED', req.body);
     const contact = new Contact(req.body);
+    console.log('CONTACT TO SAVE:', contact);
     await contact.save();
+    console.log('CONTACT SAVED:', contact);
     res.status(201).json({ data: contact });
+    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
