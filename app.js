@@ -13,7 +13,7 @@ app.use(cors({
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect('mongodb://localhost:27017/contactsdb')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/contacts_db', )
 .then(() => console.log('MongoDB Connected'))
 .catch(err => console.error('MongoDB Error:', err));
 
